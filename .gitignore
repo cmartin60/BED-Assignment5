@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.vscode/
+
+module-3-assignment-firebase-ci.json

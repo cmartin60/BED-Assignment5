@@ -1,0 +1,109 @@
+/**
+ * Employee Controller
+ *
+ * This file defines functions (controllers) for handling incoming requests related to employees.
+ * These functions interact with the employee service (employeeService.ts) to perform the actual
+ * logic for CRUD operations on employees.
+ */
+
+import { Request, Response, NextFunction } from "express";
+import * as employeeService from "../services/employeeServices";
+import type { Employee } from "../models/employeeModel";
+
+/**
+ * @description Get all employees.
+ * @route GET /employees
+ * @returns {Promise<void>}
+ */
+export const getAllEmployees = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const employees: Employee[] = await employeeService.getAllEmployees();
+        res.status(200).json({ message: "Employees Retrieved", data: employees });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * @description Get an employee by ID.
+ * @route GET /employees/:id
+ * @returns {Promise<void>}
+ */
+export const getEmployeeById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const employee = await employeeService.getEmployeeById(req.params.id);
+        
+        if (!employee) {
+            res.status(404).json({ message: "Employee not found" });
+        }
+
+        res.status(200).json({ message: "Employee Retrieved", data: employee });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * @description Create a new employee.
+ * @route POST /employees
+ * @returns {Promise<void>}
+ */
+export const createEmployee = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const newEmployee: Employee = await employeeService.createEmployee(req.body);
+        res.status(201).json({ message: "Employee Created", data: newEmployee });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * @description Update an existing employee.
+ * @route PUT /employees/:id
+ * @returns {Promise<void>}
+ */
+export const updateEmployee = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const updatedEmployee: Employee = await employeeService.updateEmployee(
+            req.params.id,
+            req.body
+        );
+        res.status(200).json({ message: "Employee Updated", data: updatedEmployee });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * @description Delete an employee.
+ * @route DELETE /employees/:id
+ * @returns {Promise<void>}
+ */
+export const deleteEmployee = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        await employeeService.deleteEmployee(req.params.id);
+        res.status(200).json({ message: "Employee Deleted" });
+    } catch (error) {
+        next(error);
+    }
+};
