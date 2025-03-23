@@ -21,10 +21,17 @@ export const getEmployeesByBranch = async (
 ): Promise<void> => {
     try {
         const { branchId } = req.params;
-        const employees: Employee[] = await employeeService.getAllEmployees();
-        const filteredEmployees = employees.filter(emp => emp.branchId === branchId);
-        res.status(200).json({ message: "Employees Retrieved", data: filteredEmployees });
+
+        const employee = await employeeService.getEmployeeById(branchId);
+        const employees: Employee[] = employee ? [employee] : [];
+
+        if (!employees || employees.length === 0) {
+            res.status(404).json({ message: "No employees found for this branch" });
+        }
+
+        res.status(200).json({ message: "Employees Retrieved", data: employees });
     } catch (error) {
+        console.error("Error fetching employees by branch:", error);
         next(error);
     }
 };
@@ -41,10 +48,17 @@ export const getEmployeesByDepartment = async (
 ): Promise<void> => {
     try {
         const { department } = req.params;
-        const employees: Employee[] = await employeeService.getAllEmployees();
-        const filteredEmployees = employees.filter(emp => emp.department === department);
-        res.status(200).json({ message: "Employees Retrieved", data: filteredEmployees });
+
+        const employee = await employeeService.getEmployeeById(department);
+        const employees: Employee[] = employee ? [employee] : [];
+
+        if (!employees || employees.length === 0) {
+            res.status(404).json({ message: "No employees found for this department" });
+        }
+
+        res.status(200).json({ message: "Employees Retrieved", data: employees });
     } catch (error) {
+        console.error("Error fetching employees by department:", error);
         next(error);
     }
 };

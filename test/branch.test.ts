@@ -8,7 +8,17 @@ import {
     getBranchById,
 } from "../src/api/v1/controllers/branchControllers";
 
-// Mock the Branch Controller
+jest.mock("../config/firebaseConfig", () => ({
+    firestore: jest.fn().mockReturnValue({
+        collection: jest.fn().mockReturnThis(),
+        doc: jest.fn().mockReturnThis(),
+        get: jest.fn().mockResolvedValue({ exists: true, data: () => ({}) }),
+        set: jest.fn().mockResolvedValue(null),
+        update: jest.fn().mockResolvedValue(null),
+        delete: jest.fn().mockResolvedValue(null),
+    }),
+}));
+
 jest.mock("../src/api/v1/controllers/branchControllers", () => ({
     getAllBranches: jest.fn((req, res) => res.status(200).send()),
     createBranch: jest.fn((req, res) => res.status(201).send()),
@@ -41,7 +51,6 @@ describe("Branch Routes", () => {
             expect(createBranch).toHaveBeenCalled();
         });
     });
-
 
     describe("GET /api/v1/branches/:id", () => {
         it("should call getBranchById controller", async () => {

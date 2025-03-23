@@ -20,7 +20,7 @@ const router = express.Router();
  *       404:
  *         description: Branch not found or no employees in branch
  */
-router.get("/branches/:branchId/employees", getEmployeesByBranch);
+router.get("/:branchId/employees", getEmployeesByBranch);
 
 /**
  * @openapi
@@ -39,7 +39,7 @@ router.get("/branches/:branchId/employees", getEmployeesByBranch);
  *       404:
  *         description: Department not found or no employees in department
  */
-router.get("/departments/:department/employees", getEmployeesByDepartment);
+router.get("/:department/employees", getEmployeesByDepartment);
 
 
 export default router;
