@@ -1,12 +1,16 @@
 
 import express, { Express } from "express";
 import morgan from "morgan";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 import setupSwagger from "../config/swagger";
 
 import employeeRoutes from "./api/v1/routes/employeeRoutes";
 import branchRoutes from "./api/v1/routes/branchRoutes";
 import logicalOperationsRoutes from "./api/v1/routes/logicalRoutes";
+import errorHandler from "./api/v1/middleware/errorHandler";
 
 // initialize the express application
 const app: Express = express();
@@ -64,6 +68,8 @@ app.get("/health", (req, res) => {
 app.use("/api/v1/routes", employeeRoutes);
 app.use("/api/v1/branches", branchRoutes);
 app.use("/api/v1", logicalOperationsRoutes);
+
+app.use(errorHandler);
 
 // export app and server for testing
 export default app;

@@ -26,7 +26,7 @@ jest.mock("../config/firebaseConfig", () => ({
     },
 }));
 
-import db from "../config/firebaseConfig";
+import { db } from "../config/firebaseConfig";
 
 describe("Firestore Repository", () => {
     const mockCollectionName: string = "testCollection";
