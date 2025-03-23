@@ -21,7 +21,7 @@ const getFirebaseConfig = (): AppOptions => {
     ) {
         // This really should be a custom error type
         throw new Error(
-            "Missing Firebase configuaration. Please check your environment variables"
+            "Missing Firebase configuration. Please check your environment variables"
         );
     }
 
