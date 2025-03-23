@@ -2,7 +2,7 @@
 import express, { Express } from "express";
 import morgan from "morgan";
 import helmet from "helmet";
-
+import cors from "cors";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -16,8 +16,11 @@ import errorHandler from "./api/v1/middleware/errorHandler";
 
 // initialize the express application
 const app: Express = express();
+
 // apply the default helmet security
 app.use(helmet());
+
+app.use(cors());
 
 // setup OpenAPI for API documentation
 setupSwagger(app);
