@@ -3,3 +3,53 @@ dist/
 .vscode/
 
 module-3-assignment-firebase-ci.json
+.env
+test\logical.test.ts
+
+/**  import request from "supertest";
+import app from "../src/app";
+
+// Mock Firebase Firestore to prevent real database interaction
+jest.mock("../config/firebaseConfig", () => ({
+    firestore: jest.fn().mockReturnValue({
+        collection: jest.fn().mockReturnThis(),
+        doc: jest.fn().mockReturnThis(),
+        get: jest.fn().mockResolvedValue({
+            exists: true,
+            data: () => ({
+                employees: [
+                    { id: "1", name: "John Doe", department: "IT" },
+                    { id: "2", name: "Jane Smith", department: "HR" }
+                ],
+            }),
+        }),
+        where: jest.fn().mockReturnThis(),
+        limit: jest.fn().mockReturnThis(),
+        orderBy: jest.fn().mockReturnThis(),
+        onSnapshot: jest.fn().mockReturnThis(),
+        set: jest.fn().mockResolvedValue(null),
+        update: jest.fn().mockResolvedValue(null),
+        delete: jest.fn().mockResolvedValue(null),
+    }),
+}));
+
+describe("Logical Operations API", () => {
+    let branchId: string = "1";
+    let department: string = "IT";
+
+    it("should get all employees for a specific branch", async () => {
+        const response = await request(app).get(`/api/v1/${branchId}/employees`);
+        expect(response.status).toBe(200);
+        expect(Array.isArray(response.body.data)).toBeTruthy();
+        expect(response.body.data.length).toBeGreaterThan(0);
+    });
+
+    it("should get all employees for a specific department", async () => {
+        const response = await request(app).get(`/api/v1/departments/${department}/employees`);
+        expect(response.status).toBe(200);
+        expect(Array.isArray(response.body.data)).toBeTruthy();
+        expect(response.body.data.length).toBeGreaterThan(0);
+    });
+});
+
+**/

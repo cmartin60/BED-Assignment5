@@ -17,16 +17,7 @@ import {
 } from "./utils/mockFirebaseHelper";
 import { RepositoryError } from "../src/api/v1/errors/errors";
 
-jest.mock("../config/firebaseConfig", () => ({
-    __esModule: true,
-    default: {
-        collection: jest.fn(),
-        runTransaction: jest.fn(),
-        batch: jest.fn(),
-    },
-}));
-
-import db from "../config/firebaseConfig";
+import { db } from "../config/firebaseConfig";
 
 describe("Firestore Repository", () => {
     const mockCollectionName: string = "testCollection";
@@ -63,7 +54,9 @@ describe("Firestore Repository", () => {
                 new Error("Transaction failed")
             );
 
-            await expect(runTransaction(jest.fn())).rejects.toThrow(Error);
+            await expect(runTransaction(jest.fn())).rejects.toThrow(
+                RepositoryError
+            );
         });
     });
 
@@ -105,7 +98,7 @@ describe("Firestore Repository", () => {
 
             await expect(
                 createDocument(mockCollectionName, mockData)
-            ).rejects.toThrow(Error);
+            ).rejects.toThrow(RepositoryError);
         });
     });
 
@@ -133,7 +126,7 @@ describe("Firestore Repository", () => {
             (db.collection as jest.Mock).mockReturnValue(queryRef);
 
             await expect(getDocuments(mockCollectionName)).rejects.toThrow(
-                Error
+                RepositoryError
             );
         });
     });
@@ -174,7 +167,7 @@ describe("Firestore Repository", () => {
 
             await expect(
                 getDocumentById(mockCollectionName, mockDocId)
-            ).rejects.toThrow(Error);
+            ).rejects.toThrow(RepositoryError);
         });
     });
 
@@ -343,7 +336,7 @@ describe("Firestore Repository", () => {
 
             await expect(
                 updateDocument(mockCollectionName, mockDocId, { value: 43 })
-            ).rejects.toThrow(Error);
+            ).rejects.toThrow(RepositoryError);
         });
     });
 
@@ -368,7 +361,7 @@ describe("Firestore Repository", () => {
 
             await expect(
                 deleteDocument(mockCollectionName, mockDocId)
-            ).rejects.toThrow(Error);
+            ).rejects.toThrow(RepositoryError);
         });
     });
 
@@ -423,7 +416,7 @@ describe("Firestore Repository", () => {
                     mockCollectionName,
                     fieldValuePairs
                 )
-            ).rejects.toThrow(Error);
+            ).rejects.toThrow(RepositoryError);
         });
     });
 });
